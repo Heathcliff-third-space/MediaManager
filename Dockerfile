@@ -17,7 +17,7 @@ RUN go mod download
 COPY . .
 
 # 构建应用
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o audiobookshelf-manager ./cmd/bot/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o MediaManager ./cmd/bot/main.go
 
 # 最终阶段
 FROM alpine:latest
@@ -32,11 +32,11 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /app/
 
 # 从构建阶段复制二进制文件
-COPY --from=builder /app/audiobookshelf-manager .
+COPY --from=builder /app/MediaManager .
 
 # 创建 conf 目录并复制配置文件示例
 RUN mkdir -p conf
 COPY --from=builder /app/.env.example ./conf/.env.example
 
 # 运行应用
-CMD ["./audiobookshelf-manager"]
+CMD ["./MediaManager"]
