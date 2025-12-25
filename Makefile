@@ -1,4 +1,4 @@
-# Makefile for Audiobookshelf Manager
+# Makefile for MediaManager
 
 .PHONY: test test-unit test-integration test-all clean build run deps help docker-build docker-push
 
@@ -25,18 +25,18 @@ test-all:
 # 清理构建产物
 clean:
 	@echo "清理中..."
-	rm -f audiobookshelf-manager
-	rm -f bot
+	rm -f MediaManager
+	rm -f MediaManager
 
 # 构建项目
 build:
 	@echo "构建项目..."
-	go build -o bot cmd/bot/main.go
+	go build -ldflags="-s -w" -o MediaManager cmd/bot/main.go
 
 # 运行项目
 run: build
 	@echo "运行项目..."
-	./bot
+	./MediaManager
 
 # 安装依赖
 deps:
@@ -46,16 +46,16 @@ deps:
 # 构建 Docker 镜像
 docker-build:
 	@echo "构建 Docker 镜像..."
-	docker build -t audiobookshelf-manager .
+	docker build -t MediaManager .
 
 # 推送 Docker 镜像到仓库 (需要设置 REPO 变量)
 docker-push:
 	@echo "推送 Docker 镜像到仓库..."
 ifndef REPO
-	@echo "错误: 请设置 REPO 变量，例如: make docker-push REPO=myrepo/audiobookshelf-manager"
+	@echo "错误: 请设置 REPO 变量，例如: make docker-push REPO=myrepo/MediaManager"
 	@exit 1
 endif
-	docker tag audiobookshelf-manager $(REPO):latest
+	docker tag MediaManager $(REPO):latest
 	docker push $(REPO):latest
 
 # 帮助信息
