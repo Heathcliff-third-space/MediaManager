@@ -36,7 +36,7 @@ COPY --from=builder /app/MediaManager .
 
 # 创建 conf 目录并复制配置文件示例
 RUN mkdir -p conf
-COPY --from=builder /app/.env.example ./conf/.env.example
+COPY --from=builder /app/conf/.env.example ./conf/.env.example
 
 # 运行应用
 CMD ["./MediaManager"]
